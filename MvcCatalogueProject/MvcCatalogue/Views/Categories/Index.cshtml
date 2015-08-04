@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MvcCatalogue.Category>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Categories</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", "Categories", new { @class = "btn btn-default" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CategoryId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CategoryName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.CategoryId }, new { @class = "btn btn-default" }) 
+            @Html.ActionLink("Details", "Details", new { id = item.CategoryId }, new { @class = "btn btn-default" }) 
+            @Html.ActionLink("Delete", "Delete", new { id = item.CategoryId }, new { @class = "btn btn-default" })
+        </td>
+    </tr>
+}
+
+</table>

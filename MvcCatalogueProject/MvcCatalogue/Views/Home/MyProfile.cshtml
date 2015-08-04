@@ -1,0 +1,37 @@
+﻿@model User
+@{
+    ViewBag.Title = "MyProfile";
+
+    var name = "\"" + HttpContext.Current.User.Identity.Name.ToString() + "\"";
+    char[] arr = name.ToCharArray();
+    arr[1] = arr[1].ToString().ToUpper().ToCharArray()[0];
+
+    name = null;
+    name = string.Join("", arr);
+}
+
+<h2>@name</h2>
+<hr />
+
+<div class="container">
+    <div>
+        @Html.Label("Change password: ") 
+        @Html.ActionLink("Change password", "ChangePassword", "Account")
+    </div>
+    <br />
+
+    <div>
+        @Html.Label("Full name: ")
+        @Html.DisplayFor(m => m.FullName)
+    </div>
+
+    <div>
+        @Html.Label("E-mail: ")
+        @Html.DisplayFor(m => m.EmailID)
+    </div>
+    <br />
+
+    <div>
+        @Html.ActionLink("Edit Profile", "EditProfile", "Account", null, new { @class = "btn btn-default" })
+    </div>
+</div>

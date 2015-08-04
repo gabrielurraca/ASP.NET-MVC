@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Product>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Products</h2>
+
+@if (Model != null)
+{
+    if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Create", "Create", "Products", new { @class = "btn btn-default" });
+    }
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Product Content</th>
+                <th>Product Price</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.ProductTitle</td>
+                    <td>@product.ProductContent</td>
+                    <td>@product.ProductPrice</td>
+                    @{
+                        var categories = ViewBag.Categories;
+                            
+                        foreach (var item in categories)
+                        {
+                            if (item.CategoryId == product.CategoryId)
+                            {
+                                <td>@item.CategoryName</td>
+                            }
+                        }
+                    }
+                    <td>
+                        <div class="container">
+                                @Html.ActionLink("Details", "Details", "Products", new { id = product.ProductsId }, new { @class = "btn btn-default" })
+                                
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <text> </text>
+                                    @Html.ActionLink("Edit", "Edit", "Products", new { id = product.ProductsId }, new { @class = "btn btn-default" })
+
+                                    <text> </text>
+                                    @Html.ActionLink("Delete", "Delete", "Products", new { id = product.ProductsId }, new { @class = "btn btn-default" })
+                                }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

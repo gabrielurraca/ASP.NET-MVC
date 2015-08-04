@@ -1,0 +1,33 @@
+﻿@model MvcCatalogue.Comment
+
+@if (Request.IsAuthenticated)
+{
+    @*using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="javascript:document.getElementById('logoutForm').submit()">Log out</a>
+                </li>
+            </ul>
+
+
+
+            "Create", "Comments", FormMethod.Post, new object { }
+        }*@
+
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })  
+                       
+            @Html.EditorFor(model => model.Comment1, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Comment1, "", new { @class = "text-danger" })
+
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    }
+}

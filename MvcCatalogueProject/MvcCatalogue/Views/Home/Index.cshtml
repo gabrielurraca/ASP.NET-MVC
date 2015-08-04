@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Home</h2>
+
+<div>
+    <p>If you are not logged in you are able to see the full table of products</p>
+    <p>If you log in you are able to buy products from the given table</p>
+</div>
+
+<div class="row">
+    @{
+        IEnumerable<MvcCatalogue.Product> reversed = Model.Reverse().ToArray();
+        var i = 0;
+    }
+    @foreach (var item in reversed)
+    {
+        if (i == 3)
+        {
+            break;
+        }
+
+        <div class="col-md-4">
+            <h3>@Html.DisplayFor(modelItem => item.ProductTitle)</h3>
+            <p>@Html.DisplayFor(modelItem => item.ProductContent)</p>
+            <p>
+                @Html.DisplayNameFor(model => model.ProductPrice):
+                @Html.DisplayFor(modelItem => item.ProductPrice)
+            </p>
+            
+            @Html.ActionLink("Details", "Details", "Products", new { id = item.ProductsId }, new { @class = "btn btn-default" })
+        </div>
+
+        i++;
+    }
+</div>

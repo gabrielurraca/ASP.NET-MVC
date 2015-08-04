@@ -1,0 +1,62 @@
+﻿@model Product
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="container">
+    <h3>@Html.DisplayFor(m => m.ProductTitle)</h3>
+    <div class="well well-sm">
+        <p>@Html.DisplayFor(m => m.ProductContent)</p>
+        <p>Price: @Html.DisplayFor(m => m.ProductPrice)</p>
+        <p>Category: 
+            @{
+                var categories = ViewBag.Categories;
+
+                foreach (var item in categories)
+                {
+                    if (item.CategoryId == Model.CategoryId)
+                    {
+                        @item.CategoryName
+                    }
+                }
+            }
+        </p>
+    </div>
+</div>
+
+@{
+    var users = ViewBag.Users;
+
+    if (users.Count > 0)
+    {
+        <div class="container">
+            <h3>Comments</h3>
+            <div class="well well-sm">
+                @{
+                    int index = 0;
+
+                    foreach (var item in ViewBag.Comments)
+                    {
+                        <span style="font-weight: bold;">@users[index]</span> @item.Comment1 <br />
+
+                        index++;
+                    }
+                }
+            </div>
+
+        </div>
+    }
+    
+    @Html.Partial("_CommentCreate", new Comment())
+}
+
+<br />
+
+@if (Request.IsAuthenticated)
+{
+    <a href="#" class="btn btn-default">Buy</a>
+}
+
+@Html.ActionLink("Back to list", "Index", "Products", new { @class = "btn btn-default" })
