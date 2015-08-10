@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Linq;
+    using System.Net;
     using System.Web.Mvc;
 
     public class ProductsController : Controller
@@ -17,6 +18,9 @@
             {
                 var products = de.Products.ToList();
                 ViewBag.Categories = de.Categories.ToList();
+
+                List<ImageGallery> list = de.ImageGalleries.ToList();
+                ViewBag.Gallery = list.ToList();
 
                 return View(products);
             }
@@ -44,6 +48,10 @@
                 }
             }
 
+            IQueryable<ImageGallery> gallery = de.ImageGalleries.Where(m => m.ProductId == id);
+            List<ImageGallery> list = gallery.ToList();
+
+            ViewBag.Gallery = list;
             ViewBag.Comments = comments;
             ViewBag.Users = commentNameList;
             ViewBag.Categories = de.Categories.ToList();
@@ -98,6 +106,10 @@
                     }
                 }
 
+                IQueryable<ImageGallery> gallery = de.ImageGalleries.Where(m => m.ProductId == id);
+                List<ImageGallery> list = gallery.ToList();
+                
+                ViewBag.Gallery = list;
                 ViewBag.Comments = comments;
                 ViewBag.Users = commentNameList;
                 ViewBag.Categories = de.Categories.ToList();
@@ -156,6 +168,11 @@
 
             ViewBag.GetCategories = new SelectList(de.Categories.ToList(), "CategoryId", "CategoryName", selectedItem);
 
+            IQueryable<ImageGallery> gallery = de.ImageGalleries.Where(m => m.ProductId == id);
+            List<ImageGallery> list = gallery.ToList();
+
+            ViewBag.Gallery = list;
+
             return View(product);
         }
 
@@ -186,6 +203,11 @@
                 return HttpNotFound();
             }
 
+            IQueryable<ImageGallery> gallery = de.ImageGalleries.Where(m => m.ProductId == id);
+            List<ImageGallery> list = gallery.ToList();
+
+            ViewBag.Gallery = list;
+
             return View(category);
         }
 
@@ -195,6 +217,22 @@
         {
             try
             {
+                IQueryable<ImageGallery> gallery = de.ImageGalleries.Where(m => m.ProductId == id);
+                List<ImageGallery> list = gallery.ToList();
+
+                foreach (var item in list)
+                {
+                    de.ImageGalleries.Remove(item);
+                }
+
+                IQueryable<Comment> comments = de.Comments.Where(m => m.ProductID == id);
+                List<Comment> listComments = comments.ToList();
+
+                foreach (var commentItem in listComments)
+                {
+                    de.Comments.Remove(commentItem);
+                }
+
                 Product product = de.Products.Find(id);
                 de.Products.Remove(product);
                 de.SaveChanges();
@@ -204,6 +242,57 @@
             catch { }
 
             return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult Upload(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ImageGallery gallery = de.ImageGalleries.Where(m => m.ProductId == id).FirstOrDefault();
+
+            return View(gallery);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Upload(int id, ImageGallery IG)
+        {
+            if (IG.File.ContentLength > (2 * 1024 * 1024))
+            {
+                ModelState.AddModelError("CustomError", "File must NOT be higher than 2 MB");
+
+                return View();
+            }
+            if (IG.File.ContentType != "image/jpeg" && IG.File.ContentType != "image/png" &&
+                IG.File.ContentType != "image/jpg" && IG.File.ContentType != "image/gif")
+            {
+                ModelState.AddModelError("CustomError", "File type should be jpeg, png, jpg or gif");
+
+                return View();
+            }
+
+            IG.FileName = IG.File.FileName;
+            IG.ImageSize = IG.File.ContentLength;
+
+            byte[] data = new byte[IG.File.ContentLength];
+            IG.File.InputStream.Read(data, 0, IG.File.ContentLength);
+
+            IG.ImageData = data;
+            IG.ProductId = id;
+
+            Product product = de.Products.Find(id);
+
+            using (DatabaseEntities de = new DatabaseEntities())
+            {
+                de.ImageGalleries.Add(IG);
+                de.SaveChanges();
+            }
+
+            return RedirectToAction("Edit", "Products", new { id = id });
         }
 
         protected override void Dispose(bool disposing)

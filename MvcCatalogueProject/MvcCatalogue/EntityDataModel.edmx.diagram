@@ -10,8 +10,9 @@
         <EntityTypeShape EntityType="DatabaseModel.UserRole" Width="1.5" PointX="5.25" PointY="0.875" />
         <EntityTypeShape EntityType="DatabaseModel.Category" Width="1.5" PointX="0.75" PointY="3.75" />
         <EntityTypeShape EntityType="DatabaseModel.Comment" Width="1.5" PointX="5" PointY="3.75" />
-        <EntityTypeShape EntityType="DatabaseModel.Like" Width="1.5" PointX="7.25" PointY="3.75" />
+        <EntityTypeShape EntityType="DatabaseModel.Like" Width="1.5" PointX="9.125" PointY="3.75" />
         <EntityTypeShape EntityType="DatabaseModel.Product" Width="1.5" PointX="2.875" PointY="3.75" />
+        <EntityTypeShape EntityType="DatabaseModel.ImageGallery" Width="1.5" PointX="7.125" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

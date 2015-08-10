@@ -14,6 +14,7 @@
     <table class="table table-hover">
         <thead>
             <tr>
+                <th>Product Image</th>
                 <th>Product Name</th>
                 <th>Product Content</th>
                 <th>Product Price</th>
@@ -21,9 +22,27 @@
             </tr>
         </thead>
         <tbody>
+            @{
+                List<ImageGallery> list = ViewBag.Gallery;
+            }
+
             @foreach (var product in Model)
             {
                 <tr>
+                    <td>
+                        @{
+                            ImageGallery listItem = list.Where(m => m.ProductId == product.ProductsId).FirstOrDefault();
+
+                            if (listItem != null)
+                            {
+                                <img src="data:image/png;base64, @Convert.ToBase64String(listItem.ImageData, 0, listItem.ImageData.Length)" style="height: 100px; width: 130px;" />
+                            }
+                            else
+                            {
+                                <img src="~/Images/no-image.png" style="height: 100px; width: 130px;" />
+                            }
+                        }
+                    </td>
                     <td>@product.ProductTitle</td>
                     <td>@product.ProductContent</td>
                     <td>@product.ProductPrice</td>
@@ -45,7 +64,7 @@
                                 @if (User.IsInRole("Admin"))
                                 {
                                     <text> </text>
-                                    @Html.ActionLink("Edit", "Edit", "Products", new { id = product.ProductsId }, new { @class = "btn btn-default" })
+                                    @Html.ActionLink("Edit / Add Image", "Edit", "Products", new { id = product.ProductsId }, new { @class = "btn btn-default" })
 
                                     <text> </text>
                                     @Html.ActionLink("Delete", "Delete", "Products", new { id = product.ProductsId }, new { @class = "btn btn-default" })

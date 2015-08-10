@@ -7,6 +7,42 @@
 <h2>Delete</h2>
 
 <h3>Are you sure you want to delete this?</h3>
+
+<table class="table">
+    @{
+        List<ImageGallery> list = ViewBag.Gallery;
+
+        if (list.Count > 0)
+        {
+            for (int i = 0; i < list.Count(); i += 3)
+            {
+                int j = i;
+
+                <tr>
+                    @while (j < i + 3 && j < list.Count())
+                    {
+                        <td>
+                            <a href="data:image/png;base64, @Convert.ToBase64String(list[j].ImageData, 0, list[j].ImageData.Length)" class="thumbnail" style="height: 220px;">
+                                <img src="data:image/png;base64, @Convert.ToBase64String(list[j].ImageData, 0, list[j].ImageData.Length)" style="width:250px;height:200px;" />
+                            </a>
+                        </td>
+
+                        j++;
+                    }
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>
+                    <img src="~/Images/no-image.png" class="thumbnail" style="width:250px;height:200px;" />
+                </td>
+            </tr>
+        }
+    }
+</table>
+
 <div>
     <h4>Product</h4>
     <hr />

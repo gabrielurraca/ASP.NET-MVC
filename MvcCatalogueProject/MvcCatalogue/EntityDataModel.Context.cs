@@ -32,5 +32,6 @@ namespace MvcCatalogue
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Like> Likes { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<ImageGallery> ImageGalleries { get; set; }
     }
 }

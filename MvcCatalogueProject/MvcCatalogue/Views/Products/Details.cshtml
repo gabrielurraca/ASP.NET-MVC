@@ -5,6 +5,41 @@
 
 <h2>Details</h2>
 
+<table class="table">
+    @{
+        List<ImageGallery> list = ViewBag.Gallery;
+
+        if (list.Count > 0)
+        {
+            for (int i = 0; i < list.Count(); i += 3)
+            {
+                int j = i;
+
+                <tr>
+                    @while (j < i + 3 && j < list.Count())
+                    {
+                        <td>
+                            <a href="data:image/png;base64, @Convert.ToBase64String(list[j].ImageData, 0, list[j].ImageData.Length)" class="thumbnail" style="height: 220px;">
+                                <img src="data:image/png;base64, @Convert.ToBase64String(list[j].ImageData, 0, list[j].ImageData.Length)" style="width:250px;height:200px;" />
+                            </a>
+                        </td>
+
+                        j++;
+                    }
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>
+                    <img src="~/Images/no-image.png" class="thumbnail" style="height:100px; width:130px" />
+                </td>
+            </tr>
+        }
+    }
+</table>
+
 <div class="container">
     <h3>@Html.DisplayFor(m => m.ProductTitle)</h3>
     <div class="well well-sm">

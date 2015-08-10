@@ -21,6 +21,16 @@
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="ImageGallery">
+          <Key>
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Name="ImageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ImageSize" Type="int" Nullable="false" />
+          <Property Name="FileName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ImageData" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Likes">
           <Key>
             <PropertyRef Name="Id" />
@@ -67,6 +77,7 @@
         <EntityContainer Name="DatabaseModelStoreContainer">
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImageGallery" EntityType="Self.ImageGallery" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Likes" EntityType="Self.Likes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
@@ -95,6 +106,7 @@
           <EntitySet Name="Comments" EntityType="DatabaseModel.Comment" />
           <EntitySet Name="Likes" EntityType="DatabaseModel.Like" />
           <EntitySet Name="Products" EntityType="DatabaseModel.Product" />
+          <EntitySet Name="ImageGalleries" EntityType="DatabaseModel.ImageGallery" />
         </EntityContainer>
         <EntityType Name="Role">
           <Key>
@@ -144,6 +156,16 @@
           <Property Name="ProductContent" Type="String" Nullable="false" MaxLength="400" FixedLength="false" Unicode="true" />
           <Property Name="ProductPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
           <Property Name="CategoryId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ImageGallery">
+          <Key>
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Name="ImageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ImageSize" Type="Int32" Nullable="false" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ImageData" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -214,6 +236,17 @@
                 <ScalarProperty Name="ProductContent" ColumnName="ProductContent" />
                 <ScalarProperty Name="ProductTitle" ColumnName="ProductTitle" />
                 <ScalarProperty Name="ProductsId" ColumnName="ProductsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImageGalleries">
+            <EntityTypeMapping TypeName="DatabaseModel.ImageGallery">
+              <MappingFragment StoreEntitySet="ImageGallery">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ImageData" ColumnName="ImageData" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="ImageSize" ColumnName="ImageSize" />
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

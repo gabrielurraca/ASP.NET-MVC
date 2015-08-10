@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\Work\Task\Task 2 - 2\MvcCatalogueProject\MvcCatalogue\EntityDataModel.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\GitHub2\NET\ASP.NET-MVC\ASP.NET-MVC\MvcCatalogueProject\MvcCatalogue\EntityDataModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

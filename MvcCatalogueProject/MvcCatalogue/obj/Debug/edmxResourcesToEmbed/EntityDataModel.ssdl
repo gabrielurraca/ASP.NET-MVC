@@ -16,6 +16,16 @@
     <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
+  <EntityType Name="ImageGallery">
+    <Key>
+      <PropertyRef Name="ImageId" />
+    </Key>
+    <Property Name="ImageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ImageSize" Type="int" Nullable="false" />
+    <Property Name="FileName" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="ImageData" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductId" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Likes">
     <Key>
       <PropertyRef Name="Id" />
@@ -62,6 +72,7 @@
   <EntityContainer Name="DatabaseModelStoreContainer">
     <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ImageGallery" EntityType="Self.ImageGallery" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Likes" EntityType="Self.Likes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />

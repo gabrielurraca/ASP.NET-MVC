@@ -1,5 +1,6 @@
 ﻿namespace MvcCatalogue.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
 
@@ -10,6 +11,9 @@
         [AllowAnonymous]
         public ActionResult Index()
         {
+            List<ImageGallery> list = de.ImageGalleries.ToList();
+            ViewBag.Gallery = list.ToList();
+
             return View(de.Products.ToList());
         }
 

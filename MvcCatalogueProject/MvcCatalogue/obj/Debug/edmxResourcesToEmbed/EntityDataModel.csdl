@@ -18,6 +18,7 @@
     <EntitySet Name="Comments" EntityType="DatabaseModel.Comment" />
     <EntitySet Name="Likes" EntityType="DatabaseModel.Like" />
     <EntitySet Name="Products" EntityType="DatabaseModel.Product" />
+    <EntitySet Name="ImageGalleries" EntityType="DatabaseModel.ImageGallery" />
   </EntityContainer>
   <EntityType Name="Role">
     <Key>
@@ -67,5 +68,15 @@
     <Property Name="ProductContent" Type="String" Nullable="false" MaxLength="400" FixedLength="false" Unicode="true" />
     <Property Name="ProductPrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
     <Property Name="CategoryId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ImageGallery">
+    <Key>
+      <PropertyRef Name="ImageId" />
+    </Key>
+    <Property Name="ImageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ImageSize" Type="Int32" Nullable="false" />
+    <Property Name="FileName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="ImageData" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
   </EntityType>
 </Schema>

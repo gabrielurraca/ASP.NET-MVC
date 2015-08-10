@@ -141,6 +141,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\no-image.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="EntityDataModel.edmx">
@@ -206,6 +207,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ImageGallery.cs">
+      <DependentUpon>EntityDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Like.cs">
       <DependentUpon>EntityDataModel.tt</DependentUpon>
     </Compile>
@@ -257,6 +261,7 @@
     <Content Include="Views\Account\EditProfile.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Categories\Error.cshtml" />
+    <Content Include="Views\Products\Upload.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
