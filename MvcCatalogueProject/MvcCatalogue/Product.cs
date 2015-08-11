@@ -9,8 +9,11 @@
 
 namespace MvcCatalogue
 {
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Product
     {
+        [Key]
         public int ProductsId { get; set; }
 
         public string ProductTitle { get; set; }

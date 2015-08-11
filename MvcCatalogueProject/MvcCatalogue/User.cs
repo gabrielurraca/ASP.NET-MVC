@@ -9,12 +9,19 @@
 
 namespace MvcCatalogue
 {
+    using System.ComponentModel.DataAnnotations;
+
     public partial class User
     {
+        [Key]
         public int UserId { get; set; }
 
+        [Required]
+        [StringLength(200, MinimumLength = 6, ErrorMessage = "Write your Username with at least 6 characters")]
         public string Username { get; set; }
 
+        [Required]
+        [StringLength(200, MinimumLength = 6, ErrorMessage = "Write your Password with at least 6 characters")]
         public string Password { get; set; }
 
         public string FullName { get; set; }

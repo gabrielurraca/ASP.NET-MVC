@@ -9,8 +9,11 @@
 
 namespace MvcCatalogue
 {
+    using System.ComponentModel.DataAnnotations;
+
     public partial class UserRole
     {
+        [Key]
         public int UserRolesId { get; set; }
 
         public int RoleId { get; set; }

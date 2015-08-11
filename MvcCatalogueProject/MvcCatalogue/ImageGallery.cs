@@ -14,6 +14,7 @@ namespace MvcCatalogue
 
     public partial class ImageGallery
     {
+        [Key]
         public int ImageId { get; set; }
 
         public int ImageSize { get; set; }
