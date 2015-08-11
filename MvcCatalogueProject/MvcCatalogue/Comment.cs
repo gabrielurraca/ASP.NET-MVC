@@ -9,14 +9,14 @@
 
 namespace MvcCatalogue
 {
-    using System;
-    using System.Collections.Generic;
-    
     public partial class Comment
     {
         public int Id { get; set; }
+
         public int ProductID { get; set; }
+
         public int UserID { get; set; }
+
         public string Comment1 { get; set; }
     }
 }

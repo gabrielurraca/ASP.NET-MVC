@@ -9,15 +9,16 @@
 
 namespace MvcCatalogue
 {
-    using System;
-    using System.Collections.Generic;
-    
     public partial class Product
     {
         public int ProductsId { get; set; }
+
         public string ProductTitle { get; set; }
+
         public string ProductContent { get; set; }
+
         public decimal ProductPrice { get; set; }
+
         public int CategoryId { get; set; }
     }
 }

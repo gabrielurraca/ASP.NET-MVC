@@ -9,13 +9,12 @@
 
 namespace MvcCatalogue
 {
-    using System;
-    using System.Collections.Generic;
-    
     public partial class Like
     {
         public int Id { get; set; }
+
         public int ProductID { get; set; }
+
         public int Likes { get; set; }
     }
 }
