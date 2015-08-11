@@ -10,6 +10,14 @@
     <p>If you are not logged in you are able to see the full table of products</p>
     <p>If you log in you are able to buy products from the given table</p>
 </div>
+
+@using (Html.BeginForm("SearchText", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div style="margin-bottom:20px;">
+        @Html.TextBox("searchText")<input type="submit" value="Search" />
+    </div>
+}
+
 @using (Html.BeginForm("Search", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(true)

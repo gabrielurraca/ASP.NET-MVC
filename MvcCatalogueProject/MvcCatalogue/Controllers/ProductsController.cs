@@ -298,7 +298,7 @@
             return RedirectToAction("Edit", "Products", new { id = id });
         }
 
-        // Products/Search
+        // Search by category
         public ActionResult Search(int searchIndex)
         {
             List<Product> list = de.Products.Where(m => m.CategoryId == searchIndex).ToList();
@@ -308,6 +308,39 @@
             ViewBag.Categories = de.Categories.ToList();
 
             return View(list);
+        }
+
+        // Search by written text
+        public ActionResult SearchText(string searchText)
+        {
+            List<Product> list = de.Products.ToList();
+            List<Product> result = new List<Product>();
+
+            foreach (var item in list)
+            {
+                if (CheckIt(item, searchText))
+                {
+                    result.Add(item);
+                }
+            }
+
+            List<ImageGallery> listGallery = de.ImageGalleries.ToList();
+            ViewBag.Gallery = listGallery.ToList();
+            ViewBag.Categories = de.Categories.ToList();
+
+            return View(result);
+        }
+
+        private static bool CheckIt(Product product, string search)
+        {
+            string name = product.ProductTitle.ToString().ToLower();
+
+            if (name.StartsWith(search.ToLower()))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         // Dispose
