@@ -8,6 +8,7 @@
     {
         private DatabaseEntities de = new DatabaseEntities();
 
+        // GET: Home
         [AllowAnonymous]
         public ActionResult Index()
         {
@@ -17,12 +18,14 @@
             return View(de.Products.ToList());
         }
 
+        // GET: Home/Contact
         [AllowAnonymous]
         public ActionResult Contact()
         {
             return View();
         }
 
+        // GET: Home/MyProfile
         [Authorize]
         public ActionResult MyProfile()
         {
@@ -40,12 +43,14 @@
             return View(user);
         }
 
+        // GET: Home/AdminIndex
         [Authorize(Roles="Admin")]
         public ActionResult AdminIndex()
         {
             return View();
         }
 
+        // GET: Home/Error
         [AllowAnonymous]
         public ActionResult Error()
         {

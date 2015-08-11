@@ -11,11 +11,13 @@
     {
         private DatabaseEntities de = new DatabaseEntities();
 
+        // GET: Account/Login
         public ActionResult Login()
         {
             return View();
         }
 
+        // POST: Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(Login l, string ReturnURL = "")
@@ -64,6 +66,7 @@
             return View();
         }
 
+        // Account/Logout
         [Authorize]
         public ActionResult Logout()
         {
@@ -72,13 +75,14 @@
             return RedirectToAction("Index", "Home");
         }
 
+        // GET: Account/Register
         [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
 
-        // POST: Categories/Create
+        // POST: Account/Register
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -111,12 +115,14 @@
             return View(user);
         }
 
+        // GET: Account/ChangePassword
         [Authorize]
         public ActionResult ChangePassword()
         {
             return View();
         }
 
+        // POST: Account/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ChangePassword(PasswordValuesModel model)
@@ -151,12 +157,14 @@
             return View(model);
         }
 
+        // GET: Account/EditProfile
         [Authorize]
         public ActionResult EditProfile()
         {
             return View();
         }
 
+        // POST: Account/EditProfile
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditProfile(EditProfileModel model)

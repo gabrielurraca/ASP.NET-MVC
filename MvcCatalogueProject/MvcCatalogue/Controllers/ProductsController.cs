@@ -28,7 +28,7 @@
             return View();
         }
 
-        // GET: Products/Details/5
+        // GET: Products/Details
         public ActionResult Details(int id)
         {
             var comments = de.Comments.Where(m => m.ProductID == id);
@@ -61,6 +61,7 @@
             return View(products);
         }
 
+        // POST: Products/Details
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Details([Bind(Include = "Comment1")]int id, Comment collection)
@@ -153,7 +154,7 @@
             return View(collection);
         }
 
-        // GET: Products/Edit/5
+        // GET: Products/Edit
         [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
@@ -176,7 +177,7 @@
             return View(product);
         }
 
-        // POST: Products/Edit/5
+        // POST: Products/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ProductId,ProductTitle,ProductContent,ProductPrice,CatalogueId")] int id, Product collection)
@@ -192,7 +193,7 @@
             return View(collection);
         }
 
-        // GET: Products/Delete/5
+        // GET: Products/Delete
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
@@ -211,7 +212,7 @@
             return View(category);
         }
 
-        // POST: Products/Delete/5
+        // POST: Products/Delete
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
@@ -244,6 +245,7 @@
             return View();
         }
 
+        // GET: Products/Upload
         [Authorize(Roles = "Admin")]
         public ActionResult Upload(int? id)
         {
@@ -257,6 +259,7 @@
             return View(gallery);
         }
 
+        // POST: Products/Upload
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Upload(int id, ImageGallery IG)
@@ -295,6 +298,7 @@
             return RedirectToAction("Edit", "Products", new { id = id });
         }
 
+        // Dispose
         protected override void Dispose(bool disposing)
         {
             if (disposing)
