@@ -298,6 +298,18 @@
             return RedirectToAction("Edit", "Products", new { id = id });
         }
 
+        // Products/Search
+        public ActionResult Search(int searchIndex)
+        {
+            List<Product> list = de.Products.Where(m => m.CategoryId == searchIndex).ToList();
+
+            List<ImageGallery> listGallery = de.ImageGalleries.ToList();
+            ViewBag.Gallery = listGallery.ToList();
+            ViewBag.Categories = de.Categories.ToList();
+
+            return View(list);
+        }
+
         // Dispose
         protected override void Dispose(bool disposing)
         {

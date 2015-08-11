@@ -10,43 +10,63 @@
     <p>If you are not logged in you are able to see the full table of products</p>
     <p>If you log in you are able to buy products from the given table</p>
 </div>
+@using (Html.BeginForm("Search", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
 
-<div class="row">
-    @{
-        IEnumerable<MvcCatalogue.Product> reversed = Model.Reverse().ToArray();
-        List<ImageGallery> list = ViewBag.Gallery;
-        var i = 0;
-    }
-    @foreach (var item in reversed)
-    {
-        if (i == 3)
-        {
-            break;
-        }
+    <div class="row">
+        <div class="col-sm-2">
+            <nav class="nav-sidebar">
+                <h4>Categories</h4>
+                <ul class="nav">
+                    @{
+                        List<Category> categoryList = ViewBag.Categories;
 
-        <div class="col-md-4">
-            @{
-                ImageGallery listItem = list.Where(m => m.ProductId == item.ProductsId).FirstOrDefault();
-
-                if (listItem != null)
-                {
-                    <img src="data:image/png;base64, @Convert.ToBase64String(listItem.ImageData, 0, listItem.ImageData.Length)" style="height: 100px; width: 130px;" />
-                }
-                else
-                {
-                    <img src="~/Images/no-image.png" style="height: 100px; width: 130px;" />
-                }
-            }
-            <h3>@Html.DisplayFor(modelItem => item.ProductTitle)</h3>
-            <p>@Html.DisplayFor(modelItem => item.ProductContent)</p>
-            <p>
-                @Html.DisplayNameFor(model => model.ProductPrice):
-                @Html.DisplayFor(modelItem => item.ProductPrice)
-            </p>
-            
-            @Html.ActionLink("Details", "Details", "Products", new { id = item.ProductsId }, new { @class = "btn btn-default" })
+                        foreach (var item in categoryList)
+                        {
+                            <li><a href="/Products/Search?searchIndex=@item.CategoryId">@item.CategoryName</a></li>
+                        }
+                    }
+                </ul>
+            </nav>
         </div>
 
-        i++;
-    }
-</div>
+        @{
+            IEnumerable<MvcCatalogue.Product> reversed = Model.Reverse().ToArray();
+            List<ImageGallery> list = ViewBag.Gallery;
+            var i = 0;
+        }
+        @foreach (var item in reversed)
+        {
+            if (i == 3)
+            {
+                break;
+            }
+
+            <div class="col-md-3">
+                @{
+                    ImageGallery listItem = list.Where(m => m.ProductId == item.ProductsId).FirstOrDefault();
+
+                    if (listItem != null)
+                    {
+                        <img src="data:image/png;base64, @Convert.ToBase64String(listItem.ImageData, 0, listItem.ImageData.Length)" style="height: 100px; width: 130px;" />
+                    }
+                    else
+                    {
+                        <img src="~/Images/no-image.png" style="height: 100px; width: 130px;" />
+                    }
+                }
+                <h3>@Html.DisplayFor(modelItem => item.ProductTitle)</h3>
+                <p>@Html.DisplayFor(modelItem => item.ProductContent)</p>
+                <p>
+                    @Html.DisplayNameFor(model => model.ProductPrice):
+                    @Html.DisplayFor(modelItem => item.ProductPrice)
+                </p>
+
+                @Html.ActionLink("Details", "Details", "Products", new { id = item.ProductsId }, new { @class = "btn btn-default" })
+            </div>
+
+            i++;
+        }
+    </div>
+}

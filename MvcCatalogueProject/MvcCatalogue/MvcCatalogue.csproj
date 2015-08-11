@@ -262,6 +262,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Categories\Error.cshtml" />
     <Content Include="Views\Products\Upload.cshtml" />
+    <Content Include="Views\Products\Search.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

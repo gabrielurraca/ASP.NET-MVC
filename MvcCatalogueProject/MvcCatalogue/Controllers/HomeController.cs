@@ -14,6 +14,7 @@
         {
             List<ImageGallery> list = de.ImageGalleries.ToList();
             ViewBag.Gallery = list.ToList();
+            ViewBag.Categories = de.Categories.ToList();
 
             return View(de.Products.ToList());
         }
