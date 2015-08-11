@@ -26,6 +26,8 @@ namespace MvcCatalogue
 
         public string FullName { get; set; }
 
+        [EmailAddress]
+        [DataType(DataType.EmailAddress, ErrorMessage = "E-mail is not valid")]
         public string EmailID { get; set; }
     }
 }

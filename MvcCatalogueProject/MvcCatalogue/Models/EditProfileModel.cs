@@ -11,9 +11,9 @@
         [StringLength(50, MinimumLength = 6)]
         public string FullName { get; set; }
 
+        [EmailAddress]
         [Required(ErrorMessage="Write E-mail")]
         [Display(Name="E-mail")]
-        [EmailAddress]
         public string Email { get; set; }
     }
 }
