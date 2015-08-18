@@ -51,6 +51,12 @@
             IQueryable<ImageGallery> gallery = de.ImageGalleries.Where(m => m.ProductId == id);
             List<ImageGallery> list = gallery.ToList();
 
+            IList<Like> likes = de.Likes.Where(m => m.ProductID == id).ToList();
+            ViewBag.Likes = likes;
+
+            IEnumerable<User> usernames = de.Users.ToList();
+            ViewBag.Usernames = usernames;
+
             ViewBag.Gallery = list;
             ViewBag.Comments = comments;
             ViewBag.Users = commentNameList;
@@ -109,7 +115,13 @@
 
                 IQueryable<ImageGallery> gallery = de.ImageGalleries.Where(m => m.ProductId == id);
                 List<ImageGallery> list = gallery.ToList();
-                
+
+                IList<Like> likes = de.Likes.Where(m => m.ProductID == id).ToList();
+                ViewBag.Likes = likes;
+
+                IEnumerable<User> usernames = de.Users.ToList();
+                ViewBag.Usernames = usernames;
+
                 ViewBag.Gallery = list;
                 ViewBag.Comments = comments;
                 ViewBag.Users = commentNameList;
@@ -234,6 +246,14 @@
                     de.Comments.Remove(commentItem);
                 }
 
+                IQueryable<Like> likes = de.Likes.Where(m => m.ProductID == id);
+                List<Like> listLikes = likes.ToList();
+
+                foreach (var item in listLikes)
+                {
+                    de.Likes.Remove(item);
+                }
+
                 Product product = de.Products.Find(id);
                 de.Products.Remove(product);
                 de.SaveChanges();
@@ -264,37 +284,41 @@
         [ValidateAntiForgeryToken]
         public ActionResult Upload(int id, ImageGallery IG)
         {
-            if (IG.File.ContentLength > (2 * 1024 * 1024))
+            try
             {
-                ModelState.AddModelError("CustomError", "File must NOT be higher than 2 MB");
+                if (IG.File.ContentLength > (2 * 1024 * 1024))
+                {
+                    ModelState.AddModelError("CustomError", "File must NOT be higher than 2 MB");
 
-                return View();
+                    return View();
+                }
+                if (IG.File.ContentType != "image/jpeg" && IG.File.ContentType != "image/png" &&
+                    IG.File.ContentType != "image/jpg" && IG.File.ContentType != "image/gif")
+                {
+                    ModelState.AddModelError("CustomError", "File type should be jpeg, png, jpg or gif");
+
+                    return View();
+                }
+
+                IG.FileName = IG.File.FileName;
+                IG.ImageSize = IG.File.ContentLength;
+
+                byte[] data = new byte[IG.File.ContentLength];
+                IG.File.InputStream.Read(data, 0, IG.File.ContentLength);
+
+                IG.ImageData = data;
+                IG.ProductId = id;
+
+                Product product = de.Products.Find(id);
+
+                using (DatabaseEntities de = new DatabaseEntities())
+                {
+                    de.ImageGalleries.Add(IG);
+                    de.SaveChanges();
+                }
             }
-            if (IG.File.ContentType != "image/jpeg" && IG.File.ContentType != "image/png" &&
-                IG.File.ContentType != "image/jpg" && IG.File.ContentType != "image/gif")
-            {
-                ModelState.AddModelError("CustomError", "File type should be jpeg, png, jpg or gif");
-
-                return View();
-            }
-
-            IG.FileName = IG.File.FileName;
-            IG.ImageSize = IG.File.ContentLength;
-
-            byte[] data = new byte[IG.File.ContentLength];
-            IG.File.InputStream.Read(data, 0, IG.File.ContentLength);
-
-            IG.ImageData = data;
-            IG.ProductId = id;
-
-            Product product = de.Products.Find(id);
-
-            using (DatabaseEntities de = new DatabaseEntities())
-            {
-                de.ImageGalleries.Add(IG);
-                de.SaveChanges();
-            }
-
+            catch (Exception) { }
+            
             return RedirectToAction("Edit", "Products", new { id = id });
         }
 
@@ -341,6 +365,41 @@
             }
 
             return false;
+        }
+
+        // POST: Products/Rate
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public ActionResult Rate(int id, int rate)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Like like = new Like();
+                    like.ProductID = id;
+                    User user = de.Users.Where(m => m.Username == User.Identity.Name).FirstOrDefault();
+                    like.UserID = user.UserId;
+                    like.Likes = rate;
+
+                    List<Like> likes = de.Likes.Where(m => m.ProductID == id).ToList();
+                    Like findUser = likes.Where(m => m.UserID == user.UserId).FirstOrDefault();
+
+                    if (findUser != null)
+                    {
+                        return RedirectToAction("Details", "Products", new { id = id });
+                    }
+
+                    de.Likes.Add(like);
+                    de.SaveChanges();
+
+                    return RedirectToAction("Details", "Products", new { id = id });
+                }
+                catch (Exception) { }
+            }
+
+            return RedirectToAction("Details", "Products", new { id = id });
         }
 
         // Dispose

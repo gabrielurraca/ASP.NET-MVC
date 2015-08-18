@@ -62,6 +62,61 @@
 </div>
 
 @{
+    IList<Like> likes = ViewBag.Likes;
+    string str = "0";
+
+    if (likes.Count > 0)
+    {
+        int likedUsers = likes.Count();
+        double likedLikes = 0.0;
+
+        foreach (var item in likes)
+        {
+            likedLikes += double.Parse(item.Likes.ToString());
+        }
+
+        double mark = likedLikes / likedUsers;
+        str = mark.ToString();
+
+        if (str.IndexOf('.') > -1 && str.Length > str.IndexOf('.') + 3)
+        {
+            str = str.Substring(0, str.IndexOf('.') + 3);
+        }
+    }
+
+    <div class="container">
+        <p>Rating: @str</p>
+    </div>
+
+    List<User> usernames = ViewBag.Usernames;
+    User user = usernames.Where(m => m.Username == User.Identity.Name).FirstOrDefault();
+
+    if (user != null)
+    {
+        var like = likes.Where(m => m.UserID == user.UserId).FirstOrDefault();
+
+        if (Request.IsAuthenticated && like == null)
+        {
+            using (Html.BeginForm("Rate", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div style="margin-bottom:20px;">
+                    <input name="id" type="hidden" value="@Model.ProductsId" />
+                    <input type="radio" name="rate" value="1" />
+                    <input type="radio" name="rate" value="2" />
+                    <input type="radio" name="rate" value="3" />
+                    <input type="radio" name="rate" value="4" />
+                    <input type="radio" name="rate" value="5" />
+
+                    <input type="submit" value="Rate" />
+                </div>
+            }
+        }
+    }
+}
+
+@{
     var users = ViewBag.Users;
 
     if (users.Count > 0)

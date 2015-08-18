@@ -47,15 +47,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Likes">
-      <EntityTypeMapping TypeName="DatabaseModel.Like">
-        <MappingFragment StoreEntitySet="Likes">
-          <ScalarProperty Name="Likes" ColumnName="Likes" />
-          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Products">
       <EntityTypeMapping TypeName="DatabaseModel.Product">
         <MappingFragment StoreEntitySet="Products">
@@ -75,6 +66,16 @@
           <ScalarProperty Name="FileName" ColumnName="FileName" />
           <ScalarProperty Name="ImageSize" ColumnName="ImageSize" />
           <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Likes">
+      <EntityTypeMapping TypeName="DatabaseModel.Like">
+        <MappingFragment StoreEntitySet="Likes">
+          <ScalarProperty Name="Likes" ColumnName="Likes" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

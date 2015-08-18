@@ -18,6 +18,8 @@ namespace MvcCatalogue
 
         public int ProductID { get; set; }
 
+        public int UserID { get; set; }
+
         public int Likes { get; set; }
     }
 }

@@ -32,6 +32,7 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="ProductID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
     <Property Name="Likes" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Products">
