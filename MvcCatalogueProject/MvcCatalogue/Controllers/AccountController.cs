@@ -22,27 +22,6 @@
         [ValidateAntiForgeryToken]
         public ActionResult Login(Login l, string ReturnURL = "")
         {
-            #region Existing Code 01
-            //using (DatabaseEntities de = new DatabaseEntities())
-            //{
-            //    var user = de.Users.Where(a=>a.Username.Equals(l.Username) && a.Password.Equals(l.Password)).FirstOrDefault();
-
-            //    if (user != null)
-            //    {
-            //        FormsAuthentication.SetAuthCookie(user.Username, l.RememberMe);
-
-            //        if (Url.IsLocalUrl(ReturnURL))
-            //        {
-            //            return Redirect(ReturnURL);
-            //        }
-            //        else
-            //        {
-            //            return RedirectToAction("MyProfile", "Home");
-            //        }
-            //    }
-            //}
-            #endregion
-
             if (ModelState.IsValid)
             {
                 var isValidUser = Membership.ValidateUser(l.Username, l.Password);
@@ -95,14 +74,6 @@
             {
                 return RedirectToAction("Error", "Home");
             }
-
-            //foreach (var userItem in users)
-            //{
-            //    if (userItem.Username == user.Username)
-            //    {
-            //        return RedirectToAction("Error", "Home");
-            //    }
-            //}
 
             if (ModelState.IsValid)
             {

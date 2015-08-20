@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Index";
     List<ImageGallery> list = ViewBag.Gallery;
+    IEnumerable<MvcCatalogue.Product> reversed = Model.Reverse().ToArray();
 }
 
 <h2>Products</h2>
@@ -23,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var product in Model)
+            @foreach (var product in reversed)
             {
                 <tr>
                     <td>

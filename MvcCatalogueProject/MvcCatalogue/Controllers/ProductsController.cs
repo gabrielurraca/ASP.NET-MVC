@@ -18,7 +18,7 @@
             {
                 var products = de.Products.ToList();
                 ViewBag.Categories = de.Categories.ToList();
-
+                
                 List<ImageGallery> list = de.ImageGalleries.ToList();
                 ViewBag.Gallery = list.ToList();
 
@@ -32,9 +32,14 @@
         public ActionResult Details(int id)
         {
             var comments = de.Comments.Where(m => m.ProductID == id);
+            ViewBag.Comments = comments;
+
             var users = de.Users.ToList();
             var commentNameList = new List<string>();
 
+            // commentNameList.Add(users.Where(m => m.UserId == comments.ToList().FirstOrDefault().UserID).FirstOrDefault().Username);
+
+            //
             foreach (var commentsItem in comments)
             {
                 foreach (var usersItem in users)
@@ -48,8 +53,10 @@
                 }
             }
 
-            IQueryable<ImageGallery> gallery = de.ImageGalleries.Where(m => m.ProductId == id);
-            List<ImageGallery> list = gallery.ToList();
+            ViewBag.Users = commentNameList;
+
+            List<ImageGallery> list = de.ImageGalleries.Where(m => m.ProductId == id).ToList();
+            ViewBag.Gallery = list;
 
             IList<Like> likes = de.Likes.Where(m => m.ProductID == id).ToList();
             ViewBag.Likes = likes;
@@ -57,9 +64,6 @@
             IEnumerable<User> usernames = de.Users.ToList();
             ViewBag.Usernames = usernames;
 
-            ViewBag.Gallery = list;
-            ViewBag.Comments = comments;
-            ViewBag.Users = commentNameList;
             ViewBag.Categories = de.Categories.ToList();
 
             var products = de.Products.Find(id);
@@ -77,29 +81,18 @@
                 IEnumerable<Product> products = de.Products.ToList();
                 IEnumerable<User> users = de.Users.ToList();
 
-                collection.ProductID = id;
-
-                //Console.WriteLine(users.FirstOrDefault(m => m.UserId.Equals(User.Identity.Name)));
-                //collection.UserID = users.FirstOrDefault(m => m.UserId.Equals(User.Identity.Name));
-
-                foreach (var item in users)
-                {
-                    if (item.Username == User.Identity.Name)
-                    {
-                        collection.UserID = item.UserId;
-
-                        break;
-                    }
-                }
-
+                collection.ProductID = id;                
+                collection.UserID = users.Where(m => m.Username == User.Identity.Name).FirstOrDefault().UserId;
+                
                 de.Comments.Add(collection);
                 de.SaveChanges();
-
-                //return RedirectToAction("Index");
-
+                
                 var comments = de.Comments.Where(m => m.ProductID == id);
-                var commentNameList = new List<string>();
+                ViewBag.Comments = comments;
 
+                var commentNameList = new List<string>();
+                
+                //
                 foreach (var commentsItem in comments)
                 {
                     foreach (var usersItem in users)
@@ -113,8 +106,10 @@
                     }
                 }
 
-                IQueryable<ImageGallery> gallery = de.ImageGalleries.Where(m => m.ProductId == id);
-                List<ImageGallery> list = gallery.ToList();
+                ViewBag.Users = commentNameList;
+
+                List<ImageGallery> list = de.ImageGalleries.Where(m => m.ProductId == id).ToList();
+                ViewBag.Gallery = list;
 
                 IList<Like> likes = de.Likes.Where(m => m.ProductID == id).ToList();
                 ViewBag.Likes = likes;
@@ -122,9 +117,6 @@
                 IEnumerable<User> usernames = de.Users.ToList();
                 ViewBag.Usernames = usernames;
 
-                ViewBag.Gallery = list;
-                ViewBag.Comments = comments;
-                ViewBag.Users = commentNameList;
                 ViewBag.Categories = de.Categories.ToList();
             }
 
@@ -230,30 +222,20 @@
         {
             try
             {
-                IQueryable<ImageGallery> gallery = de.ImageGalleries.Where(m => m.ProductId == id);
-                List<ImageGallery> list = gallery.ToList();
+                #region Slower Style
+                //IQueryable<ImageGallery> gallery = de.ImageGalleries.Where(m => m.ProductId == id);
+                //List<ImageGallery> list = gallery.ToList();
 
-                foreach (var item in list)
-                {
-                    de.ImageGalleries.Remove(item);
-                }
+                //foreach (var item in list)
+                //{
+                //    de.ImageGalleries.Remove(item);
+                //}
+                #endregion
 
-                IQueryable<Comment> comments = de.Comments.Where(m => m.ProductID == id);
-                List<Comment> listComments = comments.ToList();
-
-                foreach (var commentItem in listComments)
-                {
-                    de.Comments.Remove(commentItem);
-                }
-
-                IQueryable<Like> likes = de.Likes.Where(m => m.ProductID == id);
-                List<Like> listLikes = likes.ToList();
-
-                foreach (var item in listLikes)
-                {
-                    de.Likes.Remove(item);
-                }
-
+                de.ImageGalleries.Where(m => m.ProductId == id).ToList().ForEach(m => de.ImageGalleries.Remove(m));                
+                de.Comments.Where(m => m.ProductID == id).ToList().ForEach(m => de.Comments.Remove(m));                
+                de.Likes.Where(m => m.ProductID == id).ToList().ForEach(m => de.Likes.Remove(m));
+                
                 Product product = de.Products.Find(id);
                 de.Products.Remove(product);
                 de.SaveChanges();
@@ -337,34 +319,13 @@
         // Search by written text
         public ActionResult SearchText(string searchText)
         {
-            List<Product> list = de.Products.ToList();
-            List<Product> result = new List<Product>();
-
-            foreach (var item in list)
-            {
-                if (CheckIt(item, searchText))
-                {
-                    result.Add(item);
-                }
-            }
+            List<Product> list = de.Products.Where(m => m.ProductTitle.StartsWith(searchText)).ToList();
 
             List<ImageGallery> listGallery = de.ImageGalleries.ToList();
             ViewBag.Gallery = listGallery.ToList();
             ViewBag.Categories = de.Categories.ToList();
 
-            return View(result);
-        }
-
-        private static bool CheckIt(Product product, string search)
-        {
-            string name = product.ProductTitle.ToString().ToLower();
-
-            if (name.StartsWith(search.ToLower()))
-            {
-                return true;
-            }
-
-            return false;
+            return View(list);
         }
 
         // POST: Products/Rate
